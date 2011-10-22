@@ -11,7 +11,7 @@ var
 	i,j: integer;
 	main_determinant: real;
 
-   
+//formated output of the matrix  
 procedure write_matrix(output_matrix: matrix; n: integer);
 begin
 	writeln;
@@ -23,6 +23,7 @@ begin
 	end;
 end;
 
+//converts matrix to upper triengular
 procedure to_triangle(var transformer_matrix: matrix; chunk_start, chunk_end: integer);
 var
 	swap_row: integer;
@@ -47,6 +48,7 @@ begin
 	end;			
 end;
 
+//convert's upper triengular matrix to canonical, e.i. '1's on diagonal
 procedure to_canonical(var transformer_matrix: matrix; chunk_end: integer);
 begin
 	for i := 1 to chunk_end do
@@ -54,6 +56,7 @@ begin
 			transformer_matrix[i,j] := transformer_matrix[i,j]/transformer_matrix[i,i];
 end;
 
+//returns determinant of the matrix
 function determinant(working_matrix: matrix; chunk_end: integer): real;
 var
 	product: real;
@@ -64,6 +67,7 @@ begin
 	determinant := product;
 end;
 
+//solves canonical matrix, returning the vector of solutions
 function solve_canonical(canonical_matrix: matrix; chunk_end: integer): vector;
 var
 	solution: vector;
@@ -100,9 +104,11 @@ Begin
 	write_matrix(main_matrix, equesions);
 	to_triangle(main_matrix, 1, equesions);
 	main_determinant := determinant(main_matrix, equesions);
+	writeln('Determinant is ',main_determinant:0:2);
 	if main_determinant = 0 then
 		write('Solution of this system is a set of R')
 	else begin
+		to_canonical(main_matrix, equesions);
 		solution := solve_canonical(main_matrix, equesions);
 		writeln;
 		for i:=1 to equesions do
