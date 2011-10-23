@@ -1,15 +1,20 @@
-Program gaus;
+Program gaussian_elimination;
 
 type
 	matrix = array[1..256,1..256] of real;
 	vector = array[1..256] of real;
 
 var
+	//our main matrix
 	main_matrix: matrix;
-	solution: vector;
-	equesions: integer;
-	i,j: integer;
+	//determinant of main matrix
 	main_determinant: real;
+	//array of solutions
+	solution: vector;
+	//amount of equesions in our linear system
+	equesions: integer;
+	//counters
+	i,j: integer;
 
 //formated output of the matrix  
 procedure write_matrix(output_matrix: matrix; n: integer);
@@ -24,6 +29,8 @@ begin
 end;
 
 //converts matrix to upper triengular
+//chunk_start represents the upper left corner of the working matrix inside the big one
+//chunk_start represents the bottom right corner of the working matrix inside the big one
 procedure to_triangle(var transformer_matrix: matrix; chunk_start, chunk_end: integer);
 var
 	swap_row: integer;
@@ -86,9 +93,9 @@ Begin
 	read(equesions);
 	if equesions = 0 then begin
 		// Fill matrix with default value: //
-		//  | 3  5  1 | 8 |                //
-		//  | 2  1  7 | 3 |                //
-		//  | 1  4 -6 | 5 |                //
+		//  |  0  1 2 |  2 |               //
+		//  | -2 -3 1 | -5 |               //
+		//  |  2  4 0 |  6 |               //
 		equesions := 3;
 		main_matrix[1,1] :=  0; main_matrix[1,2] :=  1; main_matrix[1,3] := 2; main_matrix[1,4] :=  2;
 		main_matrix[2,1] := -2; main_matrix[2,2] := -3; main_matrix[2,3] := 1; main_matrix[2,4] := -5;
