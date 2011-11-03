@@ -30,7 +30,7 @@ end;
 
 //converts matrix to upper triengular
 //chunk_start represents the upper left corner of the working matrix inside the big one
-//chunk_start represents the bottom right corner of the working matrix inside the big one
+//chunk_end represents the bottom right corner of the working matrix inside the big one
 procedure to_triangle(var transformer_matrix: matrix; chunk_start, chunk_end: integer);
 var
 	swap_row: integer;
