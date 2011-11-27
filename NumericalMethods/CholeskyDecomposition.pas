@@ -85,7 +85,7 @@ Begin
 	write('Please enter the amount of equasions (or 0 for default): ');
 	read(equesions);
 	if equesions = 0 then begin
-		// Fill matrix with default value: //
+		// Fill matrix with default value:   //
 		//  |  4  2 -6 | -10 |               //
 		//  |  2 10  9 |  49 |               //
 		//  | -6  9 26 |  90 |               //
