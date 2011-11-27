@@ -7,7 +7,7 @@ type
 var
 	//our main matrix
 	main_matrix: matrix;
-	//array of solutions (firstly aproximate ones)
+	//arrays of solutions (aproximate ones and improved)
 	aprox_solution, solution: vector;
 	//precision of a solution
 	epsilon: real;
@@ -28,20 +28,25 @@ begin
 	end;
 end;
 
+//formated output of the solution
 procedure write_solution(output_vector: vector; size: integer);
 begin
 	for i:=1 to size do
 		write('X',i,'=',solution[i]:0:2,' ');
 end;
 
-function precision_reached(previous_solution, current_solution: vector; size: integer): boolean;
+//checks if precision is reached for each element in array (compares two passed arrays)
+function precision_reached(previous_solution, current_solution: vector; size: integer; precision: real): boolean;
 begin
+	//solution is precise
 	precision_reached := true;
 	for i:=1 to size do
-		if abs(current_solution[i] - previous_solution[i]) > epsilon then
+		//unless one of it's element's isn't
+		if abs(current_solution[i] - previous_solution[i]) > precision then
 			precision_reached := false;
 end;
 
+//an iteration step that improves passed solution using Jacobi method and returns array of improes solution
 function improve(working_matrix: matrix; aproximate_solutions: vector; size: integer): vector;
 var
 	result: vector;
@@ -60,10 +65,10 @@ Begin
 	write('Please enter the amount of equasions (or 0 for default): ');
 	read(equesions);
 	if equesions = 0 then begin
-		// Fill matrix with default value:   //
-		//  |  4  2 -6 | -10 |               //
-		//  |  2 10  9 |  49 |               //
-		//  | -6  9 26 |  90 |               //
+		// Fill matrix with default value: //
+		//  |  4  2 -6 | -10 |             //
+		//  |  2 10  9 |  49 |             //
+		//  | -6  9 26 |  90 |             //
 		equesions := 3;
 		main_matrix[1,1] :=  4; main_matrix[1,2] :=  2; main_matrix[1,3] := -6; main_matrix[1,4] := -10;
 		main_matrix[2,1] :=  2; main_matrix[2,2] := 10; main_matrix[2,3] :=  9; main_matrix[2,4] :=  49;
@@ -87,6 +92,7 @@ Begin
 	write('aprox(',0,'): ');
 	write_solution(solution, equesions);
 	k := 0;
+	//improvement cycle:
 	repeat
 		k := k+1;
 		aprox_solution := solution;
@@ -94,5 +100,6 @@ Begin
 		writeln;
 		write('aprox(',k,'): ');
 		write_solution(solution, equesions);
-	until	precision_reached(aprox_solution,solution, equesions) or (k>1000);
+		//will end if solufion is precise or amount of iterations is greater than 1000
+	until	precision_reached(aprox_solution, solution, equesions, epsilon) or (k>1000);
 end.
