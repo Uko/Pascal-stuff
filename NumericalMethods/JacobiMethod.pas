@@ -41,7 +41,7 @@ begin
 	//solution is precise
 	precision_reached := true;
 	for i:=1 to size do
-		//unless one of it's element's isn't
+		//unless one of it's elements isn't
 		if abs(current_solution[i] - previous_solution[i]) > precision then
 			precision_reached := false;
 end;
